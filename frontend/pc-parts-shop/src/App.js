@@ -3,20 +3,20 @@ import './App.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginStart } from './redux/slices/authSlice';
 import { request } from './utils/axios_helper';
-
-
 function App() {
 
   const [message, setMessage] = useState([]);
+
 
   const {isFetching, error, currentUser} = useSelector(state => state.auth.login);
   const dispatch = useDispatch();
 
   const handleClickButton = async() => {
     try{
-      const {data: resBody} = await request("get", "/test");
+      const {data: resBody} = await request("post", "/payment");
+      window.location.href = resBody.data;
       console.log(resBody.data);
-      setMessage(resBody.data);
+      // setMessage(resBody.data);
     }
     catch(error){
       console.log(error);
