@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components{
+    .gradient-to-l{
+        @apply bg-gradient-to-l from-slate-600 to-slate-400
+    }
+    .gradient-to-r {
+        @apply bg-gradient-to-r from-slate-800 to-slate-400
+    }
+    .gradient-to-br {
+        @apply bg-gradient-to-br from-slate-900 to-slate-800
+    }
+    .gradient-to-center {
+        @apply bg-gradient-to-r from-slate-800 via-slate-500 to-slate-800 
+    }
+    .button {
+        @apply bg-white hover:bg-gray-100 text-gray-800 font-semibold py-1 px-3 border border-gray-400 rounded shadow;
+    }
+
+    .input {
+        @apply rounded-md px-2 focus:outline-none border-[1.5px] py-[2px] border-neutral-300 ;
+    }
+}

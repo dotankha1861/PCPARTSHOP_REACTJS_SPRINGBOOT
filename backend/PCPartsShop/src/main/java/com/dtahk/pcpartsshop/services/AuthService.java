@@ -1,13 +1,9 @@
 package com.dtahk.pcpartsshop.services;
 
-import com.dtahk.pcpartsshop.dtos.RegisterDto;
-import com.dtahk.pcpartsshop.dtos.SignInDto;
-import com.dtahk.pcpartsshop.dtos.UserDto;
-import com.dtahk.pcpartsshop.dtos.UserSignInDto;
-import org.springframework.security.core.context.SecurityContextHolder;
+import com.dtahk.pcpartsshop.dtos.*;
 
 public interface AuthService {
-    public UserDto register(RegisterDto registerDto);
-    public UserSignInDto signIn(SignInDto signInDto);
+    public CustomerResponseDto register(RegisterRequestDto registerDto);
+    public SignInResponseDto signIn(SignInRequestDto signInDto);
     public void signOut();
 }

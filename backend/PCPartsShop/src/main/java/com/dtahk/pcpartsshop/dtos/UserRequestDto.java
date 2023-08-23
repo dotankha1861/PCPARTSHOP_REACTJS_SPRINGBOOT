@@ -33,13 +33,18 @@ public class UserRequestDto {
     @Size(max = 100)
     private String email;
 
+    private String phone;
+
     @NotNull
-    @Size(min=5, max=20)
+    @Size(max=30)
     private String username;
 
     @NotNull
-    @Size(min=5, max=20)
+    @Size(max=30)
     private char[] password;
+
+    @NotNull
+    private boolean male;
 
     @NotNull
     @Enumerated(EnumType.STRING)

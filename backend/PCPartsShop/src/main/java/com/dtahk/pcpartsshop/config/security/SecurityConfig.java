@@ -30,10 +30,53 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         //Authentication
                         .requestMatchers(HttpMethod.POST, "/signin","/register").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/signout").authenticated()
-                        //User
-                        .requestMatchers(HttpMethod.POST, "/users").hasRole("ADMIN")
-                        //Urls not exist
+                        .requestMatchers(HttpMethod.POST, "/signout", "/password").authenticated()
+                        //Cart
+                        .requestMatchers("/carts", "/carts/**").hasRole("CUSTOMER")
+                        //Category
+                        .requestMatchers(HttpMethod.GET, "/categories").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/categories").hasAnyRole("MEMBER","ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/categories/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/categories/**").hasAnyRole("MEMBER", "ADMIN")
+                        //Customer
+                        .requestMatchers(HttpMethod.GET, "/customers").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/customers").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/customers/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/customers/**").hasRole("ADMIN")
+                        //Employee
+                        .requestMatchers(HttpMethod.GET, "/admin/employees").hasAnyRole("MENBER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/admin/employees").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/admin/employees").hasAnyRole("MEMBER","ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/admin/employees/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/admin/employees/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/admin/employees/role/**").hasRole("ADMIN")
+                        //Image
+                        .requestMatchers("/images/**").permitAll()
+                        //Order
+                        .requestMatchers(HttpMethod.GET, "/orders").hasAnyRole("MEMBER","ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/orders/customer").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.POST, "/orders").hasRole("CUSTOMER")
+                        .requestMatchers(HttpMethod.PUT, "/orders/approve/**", "/orders/status/**").hasAnyRole("MEMBER","ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/orders/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/orders/statistic-revenue").hasRole("ADMIN")
+                        //Product
+                        .requestMatchers(HttpMethod.GET, "/products", "/products/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/products").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/products/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/products/**").hasAnyRole("MEMBER", "ADMIN")
+                        //Promotion
+                        .requestMatchers(HttpMethod.GET, "/promotions", "/promotions/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST,"/promotions").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/promotions/**","/promotions/cancel/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/promotions/**").hasAnyRole("MEMBER", "ADMIN")
+                        //Reset Password
+                        .requestMatchers(HttpMethod.GET, "/forget-password/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/validate-reset-token").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/reset-password").permitAll()
+                        //Stock Inventory Sheet
+                        .requestMatchers(HttpMethod.GET, "/stock-inventory-sheet","/stock-inventory-sheet/**").hasAnyRole("MEMBER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/stock-inventory-sheet").hasAnyRole("MEMBER", "ADMIN")
+//                      //Urls not exist
                         .anyRequest().permitAll());
         return http.build();
     }

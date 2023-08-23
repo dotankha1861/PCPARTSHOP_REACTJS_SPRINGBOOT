@@ -9,7 +9,7 @@ export const setAuthHeader = (token) => {
 };
 
 axios.defaults.baseURL = 'http://localhost:8080';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 export const request = (method, url, data) => {
 
@@ -24,3 +24,21 @@ export const request = (method, url, data) => {
         headers: headers,
         data: data});
 };
+
+// export const formDataAxios = axios.create({
+//     baseURL: 'http://localhost:8080',
+//     headers: {
+//       common: {
+//         Authorization: getAuthToken() !== null && getAuthToken() !== 'null' ? `Bearer ${getAuthToken()}` : null,
+//        'Content-Type': 'multipart/form-data',
+//       },
+//     },
+//   });
+  
+//   export const requestFormData = (method, url, data) => {
+//     return formDataAxios({
+//       method: method,
+//       url: url,
+//       data: data,
+//     });
+//   };

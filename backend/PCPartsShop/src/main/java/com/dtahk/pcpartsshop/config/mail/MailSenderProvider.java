@@ -1,38 +1,31 @@
 package com.dtahk.pcpartsshop.config.mail;
 
+import com.dtahk.pcpartsshop.dtos.MailBag;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import java.util.Properties;
+import java.io.UnsupportedEncodingException;
 
+@RequiredArgsConstructor
 @Component
-@AllArgsConstructor
 public class MailSenderProvider {
+    public static final String PC_PARTS_SHOP = "PCPartsShop";
+    @Value("spring.mail.username")
+    private String from;
     private final JavaMailSender mailSender;
-    public void sendMail() throws MessagingException {
-        String subject = "Here's the link to reset your password";
-        String content = "<html><body><p>Hello,</p>"
-                + "<p>Did you forget your password?</p>"
-                + "<p>Alternately, you could use the url below to complete your action.</p>"
-                + "<p><a href=\"" + "abc.xyz"+ "\">Reset Password</a></p>"
-                + "<br>"
-                + "<p>If you don't want to change your password or didn't request this, "
-                + "please ignore and delete this message.</p>"
-                + "<p>Thank you,</p>"
-                + "<p>... .</p></body></html>";
-        MimeMessage message = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-        helper.setFrom("dotankha1861@gmail.com");
-        helper.setTo("dotankha270501@gmail.com");
-        helper.setSubject(subject);
-        helper.setText(content, true);
-        mailSender.send(message);
+    public void sendEmail(MailBag mailBag) throws MessagingException, UnsupportedEncodingException {
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mailSender.createMimeMessage(), true, "UTF-8");
+        mimeMessageHelper.setFrom(from, PC_PARTS_SHOP);
+        mimeMessageHelper.setTo(mailBag.getTo());
+        mimeMessageHelper.setSubject(mailBag.getSubject());
+        mimeMessageHelper.setText(mailBag.getContent(), true);
+        mailSender.send(mimeMessageHelper.getMimeMessage());
     }
 }
